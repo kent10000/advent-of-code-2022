@@ -2,10 +2,12 @@ fun main() {
     fun part1(input: List<String>): Int {
         
         var increaseCount = 0
-        var previousInput = input[0]
+        var previousInput: String
         
-        for (x = 1; x < input.Count; x++;) {
-            val currentInput = input[x]
+        for (ping: String in input) {
+            
+            val currentInput = ping.toInt()
+            
             if (currentInput > previousInput) {
                 increaseCount++
             }
