@@ -7,7 +7,7 @@ fun main() {
         //Paper Beats Rock Beats Scissors Beats Paper
         if (player1 == player2) { return 0 } //Draw
 
-        if (player1.value + 1 == player2.value || (player1.value == 2 && player2 == Hand.Paper)) {
+        if (player1.ordinal + 1 == player2.ordinal || (player1.ordinal == 2 && player2 == Hand.Paper)) {
             return 1
         }
         return 2
@@ -49,12 +49,28 @@ fun main() {
         return score
     }
 
-
     fun part2(input: List<String>): Int {
-        //return determineWinner(player1 = Hand.Scissors, player2 = Hand.Paper)
-        return -1
-        //return ((2 + 2 * abs(2 - 1)) / 2) * 3
-       // return ((1 + 2 * abs(1 - 1)) / 2) * 3
+
+        var score = 0
+
+        input.forEach {
+            val choices = it.split(" ")
+
+            val opponentChoice = parseChoice(choices[0])
+            val selfChoice = when (choices[1].uppercase()) {
+                "X" -> Hand.values().elementAtOrNull(opponentChoice.ordinal + 1) ?: Hand.Paper //loss
+                "Y" -> opponentChoice
+                "Z" -> Hand.values().elementAtOrNull(opponentChoice.ordinal - 1) ?: Hand.Scissors //Win
+                else -> throw Exception("Invalid Gesture")
+            }
+
+            val winner = determineWinner(opponentChoice, selfChoice)
+            //0 Draw, 1 Opponent, 2 Self
+            score += selfChoice.score  + ((winner + 2 * abs(winner - 1)) / 2) * 3
+            //score += selfChoice.score  + (3 * (winner + 2 * (abs(winner-1)))) / 2
+        }
+
+        return score
 
     }
 
@@ -69,8 +85,8 @@ fun main() {
     println(part2(input))
 }
 
-enum class Hand(val value: Int, val score :Int){
-    Rock(1,1),
-    Paper(0,2),
-    Scissors(2,3)
+enum class Hand(val score: Int){
+    Paper(2),
+    Rock(1),
+    Scissors(3)
 }
