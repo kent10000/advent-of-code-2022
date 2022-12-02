@@ -1,12 +1,13 @@
 import java.lang.Exception
+import kotlin.math.abs
 
 fun main() {
     //rock //paper
-    fun rockPaperScissors(player1: Hand, player2: Hand): Int {
+    fun determineWinner(player1: Hand, player2: Hand): Int {
         //Paper Beats Rock Beats Scissors Beats Paper
         if (player1 == player2) { return 0 } //Draw
 
-        if (player1.value + 1 == player2.value || (player1.value == 2 && player1.value -1 == player2.value)) {
+        if (player1.value + 1 == player2.value || (player1.value == 2 && player2 == Hand.Paper)) {
             return 1
         }
         return 2
@@ -40,16 +41,21 @@ fun main() {
             val opponentChoice = parseChoice(choices[0])
             val selfChoice = parseChoice(choices[1])
 
-            val winner = rockPaperScissors(opponentChoice, selfChoice)
+            val winner = determineWinner(opponentChoice, selfChoice)
             //0 Draw, 1 Opponent, 2 Self
-            score += selfChoice.score  + (winner * 3)
-        }
+            score += selfChoice.score  + ((winner + 2 * abs(winner - 1)) / 2) * 3
+            //score += selfChoice.score  + (3 * (winner + 2 * (abs(winner-1)))) / 2
+        }                                       // 2/2 1 4/2 2
         return score
     }
 
 
     fun part2(input: List<String>): Int {
-        return 0
+        //return determineWinner(player1 = Hand.Scissors, player2 = Hand.Paper)
+        return -1
+        //return ((2 + 2 * abs(2 - 1)) / 2) * 3
+       // return ((1 + 2 * abs(1 - 1)) / 2) * 3
+
     }
 
     /* test if implementation meets criteria from the description, like:
