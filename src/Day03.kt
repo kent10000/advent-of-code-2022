@@ -19,7 +19,7 @@ fun main() {
                 sum += getPriority(it)
             }
         }
-        return  return sum
+        return sum
     }
 
 
