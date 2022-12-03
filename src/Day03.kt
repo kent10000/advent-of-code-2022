@@ -31,7 +31,7 @@ fun main() {
             val (elf1, elf2, elf3) = Triple(group.component1(), group.component2(), group.component3())
             //val same = elf1.toCharArray().intersect(elf2.asIterable().toSet()).intersect(elf3.asIterable().toSet())
             for (item in elf1) {
-                if (elf2.contains(item).and(elf3.contains(item))) {
+                if (elf2.contains(item) && (elf3.contains(item))) {
                     sum += getPriority(item)
                     break
                 }
