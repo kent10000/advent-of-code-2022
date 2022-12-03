@@ -24,7 +24,15 @@ fun main() {
 
 
     fun part2(input: List<String>): Int {
-        return 0
+
+        val groups = input.chunked(3)
+        var sum = 0
+        for (group in groups) {
+            val (elf1, elf2, elf3) = Triple(group.component1(), group.component2(), group.component3())
+            val same = elf1.toCharArray().intersect(elf2.asIterable().toSet()).intersect(elf3.asIterable().toSet())
+            sum += getPriority(same.first())
+        }
+        return sum
     }
 
     /* test if implementation meets criteria from the description, like:
