@@ -37,7 +37,16 @@ fun main() {
 
 
     fun part2(input: List<String>): Int {
-        return 0
+        var count = 0
+        for (line in input) {
+            val parts =  line.split(Regex("[-,]"))
+
+            val elf1 = parts.component1().toInt()..parts.component2().toInt()
+            val elf2 = parts.component3().toInt()..parts.component4().toInt()
+
+            if (elf1.intersect(elf2).isNotEmpty()) count++
+        }
+        return count
     }
 
     /* test if implementation meets criteria from the description, like:
