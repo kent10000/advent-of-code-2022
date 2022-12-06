@@ -20,23 +20,32 @@ fun main() {
         return list
     }
 
-    fun executeInstruction(instruction: String) {
+    fun List<MutableList<Char>>.executeInstruction(instruction: String) {
         val actions = instruction.split(" ")
-        for (i in actions) {
-            println(i)
-        }
-        //1,2,6
-        //val (count, from, to) = Triple(actions)
+
+        //1,3,6
+        val (count, from, to) = Triple(actions[1].toInt(), actions[3].toInt() - 1, actions[5].toInt() - 1)
+        //println("$count, $from, $to")
+        val chars = this[from].subList(this[from].size - count, this[from].size)
+        this[to].addAll(chars.reversed())
+        (0 until count).forEach { _ -> this[from].removeLast()}
+
+
+        //chars.forEach{ println(it)}
+
     }
 
-    fun part1(input: List<String>): Int {
+    fun part1(input: List<String>): String {
 
         val stacks = loadStacks(input)
-        var instructions = input.subList(input.indexOf(String()) + 1, input.size)
-        instructions.forEach { executeInstruction(it); return@forEach}
-        
-        //stacks.forEach { it.forEach { print("$it ")}; println() }
-        return 0
+        val instructions = input.subList(input.indexOf(String()) + 1, input.size)
+        //instructions.forEach { executeInstruction(it); return@forEach}
+        for (instruction in instructions) {
+            stacks.executeInstruction(instruction)
+        }
+        var crates = ""
+        stacks.forEach { crates += it.lastOrNull() ?: " " }
+        return crates
     }
 
 
@@ -50,7 +59,7 @@ fun main() {
     */
 
 
-    val input = readInput("Day02")
+    val input = readInput("Day05")
     println(part1(input))
     println(part2(input))
 }

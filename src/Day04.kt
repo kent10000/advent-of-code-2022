@@ -3,7 +3,7 @@ import kotlin.math.abs
 fun main() {
 
     fun part1(input: List<String>): Int {
-        var count = 0;
+        var count = 0
         for (line in input) {
             val parts =  line.split(Regex("[-,]"))
 
