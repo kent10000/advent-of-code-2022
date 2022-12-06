@@ -20,31 +20,24 @@ fun main() {
         return list
     }
 
-    fun List<MutableList<Char>>.executeInstruction(instruction: String) {
+    fun List<MutableList<Char>>.executeInstruction(instruction: String, new: Boolean = false) {
         val actions = instruction.split(" ")
 
         //1,3,6
         val (count, from, to) = Triple(actions[1].toInt(), actions[3].toInt() - 1, actions[5].toInt() - 1)
         //println("$count, $from, $to")
         val chars = this[from].subList(this[from].size - count, this[from].size)
-        this[to].addAll(chars.reversed())
+        if (new) {
+            this[to].addAll(chars)
+        } else {
+            this[to].addAll(chars.reversed())
+        }
+
         (0 until count).forEach { _ -> this[from].removeLast()}
         //chars.forEach{ println(it)}
 
     }
 
-    fun List<MutableList<Char>>.executeNewInstruction(instruction: String) {
-        val actions = instruction.split(" ")
-
-        //1,3,6
-        val (count, from, to) = Triple(actions[1].toInt(), actions[3].toInt() - 1, actions[5].toInt() - 1)
-        //println("$count, $from, $to")
-        val chars = this[from].subList(this[from].size - count, this[from].size)
-        this[to].addAll(chars)
-        (0 until count).forEach { _ -> this[from].removeLast()}
-        //chars.forEach{ println(it)}
-
-    }
 
     fun part1(input: List<String>): String {
 
@@ -65,7 +58,7 @@ fun main() {
         val instructions = input.subList(input.indexOf(String()) + 1, input.size)
         //instructions.forEach { executeInstruction(it); return@forEach}
         for (instruction in instructions) {
-            stacks.executeNewInstruction(instruction)
+            stacks.executeInstruction(instruction, true)
         }
         var crates = ""
         stacks.forEach { crates += it.lastOrNull() ?: " " }
