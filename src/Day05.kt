@@ -29,8 +29,19 @@ fun main() {
         val chars = this[from].subList(this[from].size - count, this[from].size)
         this[to].addAll(chars.reversed())
         (0 until count).forEach { _ -> this[from].removeLast()}
+        //chars.forEach{ println(it)}
 
+    }
 
+    fun List<MutableList<Char>>.executeNewInstruction(instruction: String) {
+        val actions = instruction.split(" ")
+
+        //1,3,6
+        val (count, from, to) = Triple(actions[1].toInt(), actions[3].toInt() - 1, actions[5].toInt() - 1)
+        //println("$count, $from, $to")
+        val chars = this[from].subList(this[from].size - count, this[from].size)
+        this[to].addAll(chars)
+        (0 until count).forEach { _ -> this[from].removeLast()}
         //chars.forEach{ println(it)}
 
     }
@@ -49,8 +60,16 @@ fun main() {
     }
 
 
-    fun part2(input: List<String>): Int {
-        return 0
+    fun part2(input: List<String>): String {
+        val stacks = loadStacks(input)
+        val instructions = input.subList(input.indexOf(String()) + 1, input.size)
+        //instructions.forEach { executeInstruction(it); return@forEach}
+        for (instruction in instructions) {
+            stacks.executeNewInstruction(instruction)
+        }
+        var crates = ""
+        stacks.forEach { crates += it.lastOrNull() ?: " " }
+        return crates
     }
 
     /* test if implementation meets criteria from the description, like:
